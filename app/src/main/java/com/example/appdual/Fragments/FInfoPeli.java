@@ -59,10 +59,6 @@ public class FInfoPeli extends Fragment {
             Film peli = (Film) this.getArguments().getSerializable("peli");
 
 
-
-
-
-
         guardar = infopeli.findViewById(R.id.btnguardar2);
 
             myText2 = infopeli.findViewById(R.id.nomView);
