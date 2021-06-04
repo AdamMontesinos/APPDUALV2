@@ -17,6 +17,8 @@ import android.widget.TextView;
 
 import com.example.appdual.Class.Film;
 import com.example.appdual.R;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,7 +44,8 @@ public class FInfoPeli extends Fragment {
     protected ImageButton guardar;
     protected ArrayList<Film> PelisSubidas;
 
-    DatabaseReference db;
+    FirebaseDatabase db;
+    DatabaseReference ref;
 
     public FInfoPeli() {
         // Required empty public constructor
@@ -55,7 +58,12 @@ public class FInfoPeli extends Fragment {
 
             Film peli = (Film) this.getArguments().getSerializable("peli");
 
-            guardar = infopeli.findViewById(R.id.btnguardar2);
+
+
+
+
+
+        guardar = infopeli.findViewById(R.id.btnguardar2);
 
             myText2 = infopeli.findViewById(R.id.nomView);
             myRating2 = infopeli.findViewById(R.id.rating);
@@ -73,25 +81,36 @@ public class FInfoPeli extends Fragment {
 
             PelisSubidas = new ArrayList<Film>();
 
-            db = FirebaseDatabase.getInstance().getReference().child("Films");
 
-            existePeliSerie(peli);
+            //buscar si en la bbdd hi ha l'usuari, si hi és
+
+            GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(getActivity());
+            if (acct != null) {
+                String personID = acct.getId();
+
+                existeUser(personID);
+                ref = ref.child(personID);
+
+                Log.i("Test", personID);
+            }
+
+          //  existePeliSerie(peli);
 
             guardar.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     if (comprobacio) {
-                        db.child(Integer.toString(peli.getId())).removeValue();
+                        ref.child(Integer.toString(peli.getId())).removeValue();
                         guardar.setImageDrawable(getResources().getDrawable(ic_baseline_star_outline_24));
                         comprobacio = false;
                     } else {
-                        db.child(Integer.toString(peli.getId())).setValue(peli);
+                        ref.child(Integer.toString(peli.getId())).setValue(peli);
                         guardar.setImageDrawable(getResources().getDrawable(ic_baseline_star_rate_24));
                         comprobacio = true;
                     }
                 }
             });
 
-            db.addValueEventListener(new ValueEventListener() {
+        ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Log.i("logTest ", "" + dataSnapshot.getChildrenCount());
@@ -117,14 +136,34 @@ public class FInfoPeli extends Fragment {
 
     public void existePeliSerie (Film peli){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        db = FirebaseDatabase.getInstance().getReference().child("Films");
-        db.addListenerForSingleValueEvent(new ValueEventListener() {
+        ref = FirebaseDatabase.getInstance().getReference().child("Films");
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot snapshot) {
                 if (snapshot.hasChild(Integer.toString(peli.getId()))) {
                     comprobacio = false;
                 } else {
                     comprobacio = true;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+    }
+
+    public void existeUser (String user){
+        db = FirebaseDatabase.getInstance();
+        ref = db.getReference();
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot snapshot) {
+                if (!snapshot.hasChild(user)) {
+                    ref.child(user).setValue("");
+
                 }
             }
 

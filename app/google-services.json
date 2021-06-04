@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "458023068771",
+    "firebase_url": "https://appdual-cinema-default-rtdb.firebaseio.com",
     "project_id": "appdual-cinema",
     "storage_bucket": "appdual-cinema.appspot.com"
   },
@@ -10,6 +11,43 @@
         "mobilesdk_app_id": "1:458023068771:android:b45a631c5931d2f6dd8456",
         "android_client_info": {
           "package_name": "com.example.appdual"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "458023068771-e9u59apqrtd9qooc48m0ak85js6qmsfi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appdual",
+            "certificate_hash": "e7935901eaf3e15516e401219cea5dd0826cb554"
+          }
+        },
+        {
+          "client_id": "458023068771-6dtsp5no9nbp584c74tg5dr2hv0ep22s.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDItRDEpYcpPHz4uJM15AGlHW3gevARy-I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "458023068771-6dtsp5no9nbp584c74tg5dr2hv0ep22s.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:458023068771:android:c390eb599761c13fdd8456",
+        "android_client_info": {
+          "package_name": "com.example.appdualv2"
         }
       },
       "oauth_client": [

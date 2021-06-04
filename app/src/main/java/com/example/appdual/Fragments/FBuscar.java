@@ -31,7 +31,7 @@ public class FBuscar extends Fragment {
         // Inflate the layout for this fragment
         View fbuscar = inflater.inflate(R.layout.fragment_f_buscar, container, false);
 
-        Button btnSearch = fbuscar.findViewById(R.id.BPelis3);
+        Button btnSearch = fbuscar.findViewById(R.id.BPelisSisi);
         btnSearch.setOnClickListener(new View.OnClickListener() {
         public void onClick(View v) {
                 showTxtSearch();
