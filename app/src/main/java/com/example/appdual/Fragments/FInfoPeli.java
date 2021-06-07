@@ -1,7 +1,5 @@
 package com.example.appdual.Fragments;
 
-import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -11,8 +9,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.appdual.Class.Film;
@@ -43,6 +44,7 @@ public class FInfoPeli extends Fragment {
 
     protected ImageButton guardar;
     protected ArrayList<Film> PelisSubidas;
+    protected ArrayList<String> ArrayListas;
 
     FirebaseDatabase db;
     DatabaseReference ref;
@@ -75,7 +77,6 @@ public class FInfoPeli extends Fragment {
             String urlImg = "https://image.tmdb.org/t/p/original/" + peli.getBackdrop_path();
             Picasso.get().load(urlImg).into(PortadaPeliGran);
 
-            PelisSubidas = new ArrayList<Film>();
 
 
             //buscar si en la bbdd hi ha l'usuari, si hi és
@@ -106,6 +107,36 @@ public class FInfoPeli extends Fragment {
                 }
             });
 
+            ArrayListas = new ArrayList<String>();
+
+        // ref child(Llistes)
+            ref.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Log.i("logTest ", "" + dataSnapshot.getChildrenCount());
+
+                    ArrayListas.clear();
+
+                    for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                        ArrayListas.add(postSnapshot.getValue().toString());
+                    }
+                }
+
+                @Override
+                public void onCancelled(DatabaseError error) {
+                    // Failed to read value
+                    Log.i("logTest", "Failed to read value.", error.toException());
+                }
+            });
+
+
+        Spinner spinner = infopeli.findViewById(R.id.anadirlistas);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(getContext(),android.R.layout.simple_spinner_item, ArrayListas);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+
+
+/*
         ref.addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -127,9 +158,10 @@ public class FInfoPeli extends Fragment {
                 }
             });
 
+        */
+
             return infopeli;
         }
-
     public void existePeliSerie (Film peli){
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         ref = FirebaseDatabase.getInstance().getReference().child("Films");

@@ -78,6 +78,7 @@ public class FLlista extends Fragment {
                 // si no existeix s'ha de crear i afegir la llista
                 // si existeix s'ha d'afegir la llista
 
+                ref = ref.child("Listas");
                 ref.child(lista).setValue("");
                 ArrayListas.add(lista);
             }
