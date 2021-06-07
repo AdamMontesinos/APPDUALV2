@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.example.appdual.Class.Lista;
 import com.example.appdual.R;
 import com.example.appdual.fetchData;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -25,11 +24,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
 public class FLlista extends Fragment {
 
     FirebaseDatabase db;
     DatabaseReference ref;
     String personID;
+    ArrayList<String> ArrayListas;
 
     public FLlista() {
         // Required empty public constructor
@@ -70,12 +72,14 @@ public class FLlista extends Fragment {
             public void onClick(DialogInterface dialog, int whichButton) {
                 String nomLlista = input.getText().toString();
                 String lista = nomLlista;
+                ArrayListas = new ArrayList<String>();
 
                 //comprovar si existeix el child Llistes
                 // si no existeix s'ha de crear i afegir la llista
                 // si existeix s'ha d'afegir la llista
 
                 ref.child(lista).setValue("");
+                ArrayListas.add(lista);
             }
         });
 
